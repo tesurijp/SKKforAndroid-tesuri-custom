@@ -178,6 +178,7 @@ class SetKeyPreference : DialogPreference, OnKeyListener {
                 KeyEvent.KEYCODE_SEARCH -> result.append("SEARCH")
                 KeyEvent.KEYCODE_VOLUME_UP -> result.append("Volume UP")
                 KeyEvent.KEYCODE_VOLUME_DOWN -> result.append("Volume DOWN")
+                KeyEvent.KEYCODE_ALT_LEFT -> result.append("ALT LEFT (☺)")
 
                 else -> result.append("Unknown")
             }
