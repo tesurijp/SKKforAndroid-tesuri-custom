@@ -1,0 +1,420 @@
+# Copyright (C) 2012 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#
+# English (UK) keyboard layout.
+# Unlike the default (generic) keyboard layout, English (US) does not contain any
+# special ALT characters.
+#
+#
+# Custom by tesuri
+# Fn + E to BACK
+#
+
+type OVERLAY
+
+# CUSTOM_NAME E to SLASH
+map key 18 SLASH 
+
+### ROW 1
+
+key ESCAPE {
+    base:                               fallback BACK
+    alt, meta:                          fallback HOME
+    ctrl:                               fallback MENU
+}
+
+key 1 {
+    label:                              '1'
+    base:                               '1'
+    shift:                              '!'
+    fn:			                		'~'
+    alt:                               '\u00a1'
+    alt+shift:                         '\u00b9'
+}
+
+key 2 {
+    label:                              '2'
+    base:                               '2'
+    shift:                              '@'
+    fn:				                	'`'
+    alt:                               '\u00b2'
+}
+
+key 3 {
+    label:                              '3'
+    base:                               '3'
+    shift:                              '#'
+    fn:			                		'\u00a3'
+    alt:                                '\u00b3'
+}
+
+key 4 {
+    label:                              '4'
+    base:                               '4'
+    shift:                              '$'
+    fn:		                			'\u20ac'
+    alt:                                '\u00a4'
+    alt+shift:                          '\u00a3'
+}
+
+key 5 {
+    label:                              '5'
+    base:                               '5'
+    shift:                              '%'
+    fn:		                			'<'
+    alt:                                '\u20ac'
+}
+
+key 6 {
+    label:                              '6'
+    base:                               '6'
+    shift:                              '^'
+    alt+shift:                          '\u0302'
+    fn:				                	'>'
+    alt:                                '\u00bc'
+}
+
+key 7 {
+    label:                              '7'
+    base:                               '7'
+    shift:                              '&'
+    fn:			                		'['
+    alt:                                '\u00bd'
+}
+
+key 8 {
+    label:                              '8'
+    base:                               '8'
+    shift:                              '*'
+    fn:			                		']'
+    alt:                                '\u00be'
+}
+
+key 9 {
+    label:                              '9'
+    base:                               '9'
+    shift:                              '('
+    fn:					                '{'
+    alt:                                '\u2018'
+}
+
+key 0 {
+    label:                              '0'
+    base:                               '0'
+    shift:                              ')'
+    fn:					                '}'
+    alt:                                '\u2019'
+}
+
+key DEL {
+    base:			                	fallback DEL
+    shift:        			            fallback FORWARD_DEL
+}
+
+### ROW 2
+
+key Q {
+    label:                              'Q'
+    base:                               'q'
+    shift, capslock:                    'Q'
+    alt:                                '\u00e4'
+    shift+alt, capslock+alt:            '\u00c4'
+}
+
+key W {
+    label:                              'W'
+    base:                               'w'
+    shift, capslock:                    'W'
+    alt:                                '\u00e5'
+    shift+alt, capslock+alt:            '\u00c5'
+
+}
+
+#key E {
+#    label:                              'E'
+#    base:                               'e'
+#    shift, capslock:                    'E'
+#    fn:                                 fallback BACK
+#    alt:                                '\u00e9'
+#    shift+alt, capslock+alt:            '\u00c9'
+#}
+
+key SLASH {
+    label:                              'E'
+    base:                               'e'
+    shift, capslock:                    'E'
+    fn:                                 fallback BACK
+    alt:                                '\u00e9'
+    shift+alt, capslock+alt:            '\u00c9'
+}
+
+key R {
+    label:                              'R'
+    base:                               'r'
+    shift, capslock:                    'R'
+    alt:                                '\u00ae'
+}
+
+key T {
+    label:                              'T'
+    base:                               't'
+    shift, capslock:                    'T'
+    alt:                                '\u00fe'
+    shift+alt, capslock+alt:            '\u00de'
+}
+
+key Y {
+    label:                              'Y'
+    base:                               'y'
+    shift, capslock:                    'Y'
+    alt:                                '\u00fc'
+    shift+alt, capslock+alt:            '\u00dc'
+}
+
+key U {
+    label:                              'U'
+    base:                               'u'
+    shift, capslock:                    'U'
+    alt:                                '\u00fa'
+    shift+alt, capslock+alt:            '\u00da'
+}
+
+key I {
+    label:                              'I'
+    base:                               'i'
+    shift, capslock:                    'I'
+    fn:				                	'+'
+    alt:                                '\u00ed'
+    shift+alt, capslock+alt:            '\u00cd'
+}
+
+key O {
+    label:                              'O'
+    base:                               'o'
+    shift, capslock:                    'O'
+    fn:				                	'-'
+    alt:                                '\u00f3'
+    shift+alt, capslock+alt:            '\u00d3'
+
+}
+
+key P {
+    label:                              'P'
+    base:                               'p'
+    shift, capslock:                    'P'
+    fn:					                '='
+    alt:                                '\u00f6'
+    shift+alt, capslock+alt:            '\u00d6'
+}
+
+key ENTER {
+    label:                              '\n'
+    base:                               '\n'
+}
+
+### ROW 3
+
+key TAB {
+    label:                              '\t'
+    base:                               '\t'
+}
+
+key A {
+    label:                              'A'
+    base:                               'a'
+    shift, capslock:                    'A'
+    alt:                                '\u00e1'
+    shift+alt, alt+capslock:            '\u00c1'
+}
+
+key S {
+    label:                              'S'
+    base:                               's'
+    shift, capslock:                    'S'
+    alt:                                '\u00df'
+    shift+alt:                          '\u00a7'
+    fn:                                 fallback BACK
+}
+
+key D {
+    label:                              'D'
+    base:                               'd'
+    shift, capslock:                    'D'
+    alt:                                '\u00f0'
+    shift+alt, capslock+alt:            '\u00d0'
+}
+
+key F {
+    label:                              'F'
+    base:                               'f'
+    shift, capslock:                    'F'
+}
+
+key G {
+    label:                              'G'
+    base:                               'g'
+    shift, capslock:                    'G'
+}
+
+key H {
+    label:                              'H'
+    base:                               'h'
+    shift, capslock:                    'H'
+}
+
+key J {
+    label:                              'J'
+    base:                               'j'
+    shift, capslock:                    'J'
+    fn:					                '_'
+}
+
+key K {
+    label:                              'K'
+    base:                               'k'
+    shift, capslock:                    'K'
+    fn:					                ';'
+}
+
+key L {
+    label:                              'L'
+    base:                               'l'
+    shift, capslock:                    'L'
+    fn:				                	'"'
+    alt:                                '\u00f8'
+    shift+alt, capslock+alt:            '\u00d8'
+}
+
+key APOSTROPHE {
+    label:                              '\\'
+    base:                               '\\'
+    shift:                              '|'
+    fn:				                	':'
+    alt:                                '\u00ac'
+    shift+alt:                          '\u00a6'
+}
+
+### ROW 4
+
+#key SHIFT_LEFT {
+#}
+
+key Z {
+    label:                              'Z'
+    base:                               'z'
+    shift, capslock:                    'Z'
+    alt:                                '\u00e6'
+    shift+alt, capslock+alt:            '\u00c6'
+
+}
+
+key X {
+    label:                              'X'
+    base:                               'x'
+    shift, capslock:                    'X'
+}
+
+key C {
+    label:                              'C'
+    base:                               'c'
+    shift, capslock:                    'C'
+    alt:                                '\u00a9'
+    shift+alt:                          '\u00a2'
+}
+
+key V {
+    label:                              'V'
+    base:                               'v'
+    shift, capslock:                    'V'
+}
+
+key B {
+    label:                              'B'
+    base:                               'b'
+    shift, capslock:                    'B'
+}
+
+key N {
+    label:                              'N'
+    base:                               'n'
+    shift, capslock:                    'N'
+    alt:                                '\u00f1'
+    shift+alt, capslock+alt:            '\u00d1'
+}
+
+key M {
+    label:                              'M'
+    base:                               'm'
+    shift, capslock:                    'M'
+    fn:				                	'\''
+    alt:                                '\u00b5'
+}
+
+key PERIOD {
+    label:                              '.'
+    base:                               '.'
+    shift:                              '?'
+}
+
+key DPAD_UP {
+   base:			                	fallback DPAD_UP
+   fn:				                	fallback PAGE_UP
+}
+
+#key SHIFT_RIGHT {
+#}
+
+### ROW 5
+
+#key CTRL_LEFT {
+#}
+
+#key FUNCTION {
+#}
+
+#key ALT_LEFT {
+#    fn:                                 fallback SHOW_DIALER
+#}
+
+key SPACE {
+    label:                              ' '
+    base:                               ' '
+    alt, meta:                          fallback SEARCH
+    ctrl:                               fallback LANGUAGE_SWITCH
+}
+
+key COMMA {
+    label:                              ','
+    base:                               ','
+    shift:                              '/'
+    alt:                                '\u00e7'
+    shift+alt, capslock+alt:            '\u00c7'
+}
+
+key DPAD_LEFT {
+   base:				                fallback DPAD_LEFT
+   fn:				                	fallback MOVE_HOME
+}
+
+key DPAD_DOWN {
+   base:			                	fallback DPAD_DOWN
+   fn:			                		fallback PAGE_DOWN
+}
+
+key DPAD_RIGHT {
+   base:		                		fallback DPAD_RIGHT
+   fn:			                		fallback MOVE_END
+}
+

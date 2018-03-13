@@ -11,7 +11,6 @@
 			</intent-filter>
 			<meta-data android:name="android.view.im" android:resource="@xml/method" />
 		</service>
-
 		<activity android:name=".SKKPrefs"
 			android:theme="@style/Theme.AppCompat.Light.NoActionBar"
 			android:label="@string/label_pref_activity" >
@@ -37,5 +36,11 @@
 			android:label="@string/label_mushroom"
 			android:theme="@style/Theme.AppCompat.Light.Dialog">
 		</activity>
+		<receiver android:name=".InputDeviceReceiver" android:label="Custom Gemini Keyboard (US)">
+			<intent-filter>
+				<action android:name="android.hardware.input.action.QUERY_KEYBOARD_LAYOUTS" />
+			</intent-filter>
+			<meta-data android:name="android.hardware.input.metadata.KEYBOARD_LAYOUTS" android:resource="@xml/keyboard_layouts" />
+		</receiver>
 	</application>
 </manifest>
