@@ -50,6 +50,13 @@
 			android:dialogTitle="Press a key ..."
 			android:negativeButtonText="キャンセル"
 			android:positiveButtonText="OK" />
+		<jp.deadend.noname.skk.SetKeyPreference
+			android:key="@string/prefkey_mushroom_key"
+			android:title="Mushroom キー"
+			android:summary="Mushroom を呼び出すキー"
+			android:dialogTitle="Press a key ..."
+			android:negativeButtonText="キャンセル"
+			android:positiveButtonText="OK" />
 		<CheckBoxPreference
 			android:key="@string/prefkey_use_candidates_view"
 			android:title="補完・候補の一覧表示"

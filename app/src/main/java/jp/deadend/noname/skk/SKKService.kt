@@ -394,6 +394,11 @@ class SKKService : InputMethodService() {
             if (handleCancel()) { return true }
         }
 
+        if (encodedKey == SKKPrefs.getMushroomKey(context)) {
+            sendToMushroom()
+            return true
+        }
+
         if (engineState === SKKAbbrevState && encodedKey == 724) { // 724はCtrl+q
             processKey(-1010)
             return true

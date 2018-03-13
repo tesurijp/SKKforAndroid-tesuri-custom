@@ -80,6 +80,11 @@ class SKKPrefs : PreferenceActivity() {
             // 564はCtrl+g
         }
 
+        fun getMushroomKey(context: Context): Int {
+            return PreferenceManager.getDefaultSharedPreferences(context).getInt(context.getString(R.string.prefkey_mushroom_key), 57)
+            // 57 は 左 ALT かつALT修飾なし。Gemini PDA では、Fn+. (顔マーク) キーで発生するコード
+        }
+
         fun getToggleKanaKey(context: Context): Boolean {
             return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.prefkey_toggle_kana_key), true)
         }
