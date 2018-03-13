@@ -37,15 +37,17 @@ class SKKMushroom : ListActivity() {
         startActivityForResult(intent, 0)
     }
 
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
-            val extras = data.extras
-            val s = if (extras == null) "" else extras.getString(REPLACE_KEY)
+            if (data != null) {
+                val extras = data.extras
+                val s = if (extras == null) "" else extras.getString(REPLACE_KEY)
 
-            val retIntent = Intent(ACTION_BROADCAST)
-            retIntent.addCategory(CATEGORY_BROADCAST)
-            retIntent.putExtra(REPLACE_KEY, s)
-            sendBroadcast(retIntent)
+                val retIntent = Intent(ACTION_BROADCAST)
+                retIntent.addCategory(CATEGORY_BROADCAST)
+                retIntent.putExtra(REPLACE_KEY, s)
+                sendBroadcast(retIntent)
+            }
         }
         finish()
     }
