@@ -6,9 +6,13 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Configuration
 import android.inputmethodservice.InputMethodService
+import android.media.AudioManager
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import android.text.ClipboardManager
 import android.text.InputType
 import android.util.TypedValue
@@ -27,6 +31,11 @@ class SKKService : InputMethodService() {
     private var mQwertyInputView: QwertyKeyboardView? = null
     private var mAbbrevKeyboardView: AbbrevKeyboardView? = null
     private var mScreenHeight: Int = 0
+
+    private val mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
+    private var mIsRecording = false
+    private lateinit var mAudioManager: AudioManager
+    private var mStreamVolume = 0
 
     private lateinit var mEngine: SKKEngine
 
@@ -120,6 +129,27 @@ class SKKService : InputMethodService() {
         filter.addCategory(SKKMushroom.CATEGORY_BROADCAST)
         registerReceiver(mMushroomReceiver, filter)
 
+        mSpeechRecognizer.setRecognitionListener(object : RecognitionListener {
+            override fun onBeginningOfSpeech() {}
+            override fun onBufferReceived(buffer: ByteArray?) {}
+            override fun onEndOfSpeech() {}
+            override fun onError(error: Int) {}
+            override fun onEvent(eventType: Int, params: Bundle?) {}
+            override fun onPartialResults(partialResults: Bundle?) {}
+            override fun onReadyForSpeech(params: Bundle?) {}
+            override fun onRmsChanged(rmsdB: Float) {}
+            override fun onResults(results: Bundle?) {
+                results?.let {
+                    val matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                    commitTextSKK(matches[0], 0)
+                }
+                mFlickJPInputView?.setHighlightedKey(-1)
+                mIsRecording = false
+                Handler().postDelayed({ mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mStreamVolume, 0) }, 500)
+            }
+        })
+        mAudioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
         readPrefs()
     }
 
@@ -165,7 +195,13 @@ class SKKService : InputMethodService() {
         }
 
         flick.prepareNewKeyboard(applicationContext, keyWidth, mScreenHeight * keyHeight / (4 * 100), SKKPrefs.getKeyPosition(context))
-        qwerty.setFlickSensitivity(SKKPrefs.getFlickSensitivity(context))
+        val density = context.resources.displayMetrics.density
+        val sensitivity = when (SKKPrefs.getFlickSensitivity(context)) {
+            "low" -> 36*density.toInt()
+            "high" -> 12*density.toInt()
+            else -> 24*density.toInt()
+        }
+        qwerty.setFlickSensitivity(sensitivity)
         qwerty.changeKeyHeight(mScreenHeight * keyHeight / (4 * 100))
         abbrev.changeKeyHeight(mScreenHeight * keyHeight / (4 * 100))
     }
@@ -563,6 +599,24 @@ class SKKService : InputMethodService() {
         mushroom.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         mushroom.putExtra(SKKMushroom.REPLACE_KEY, str)
         startActivity(mushroom)
+    }
+
+    fun recognizeSpeech() {
+        if (mIsRecording) {
+            mSpeechRecognizer.stopListening()
+            mFlickJPInputView?.setHighlightedKey(-1)
+            mIsRecording = false
+            return
+        }
+        mIsRecording = true
+        mFlickJPInputView?.setHighlightedKey(2) // 「声」キー
+        mStreamVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0)
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, this.packageName)
+        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, false)
+        mSpeechRecognizer.startListening(intent)
     }
 
     fun setCandidates(list: List<String>?) {

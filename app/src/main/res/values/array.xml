@@ -46,12 +46,12 @@
 		<item>meta</item>
 		<item>fn</item>
 	</string-array>
-	<string-array name="curve_sensitivity_entries">
+	<string-array name="sensitivity_entries">
 		<item>高</item>
 		<item>中</item>
 		<item>低</item>
 	</string-array>
-	<string-array name="curve_sensitivity_values">
+	<string-array name="sensitivity_values">
 		<item>high</item>
 		<item>mid</item>
 		<item>low</item>

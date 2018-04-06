@@ -89,8 +89,8 @@ class SKKPrefs : PreferenceActivity() {
             return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.prefkey_toggle_kana_key), true)
         }
 
-        fun getFlickSensitivity(context: Context): Int {
-            return PreferenceManager.getDefaultSharedPreferences(context).getInt(context.getString(R.string.prefkey_flick_sensitivity), 30)
+        fun getFlickSensitivity(context: Context): String {
+            return PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.prefkey_flick_sensitivity2), "mid")
         }
 
         fun getCurveSensitivity(context: Context): String {

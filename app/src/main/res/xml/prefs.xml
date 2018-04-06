@@ -81,23 +81,14 @@
 			android:entries="@array/usesoftkey_entries"
 			android:entryValues="@array/usesoftkey_values"
 			android:defaultValue="auto" />
-		<com.hlidskialf.android.preference.SeekBarPreference
-			android:key="@string/prefkey_flick_sensitivity"
-			android:title="フリック感度"
-			android:summary="少ない値のほうが敏感になります"
-			android:dialogMessage="少ない値のほうが敏感になります"
-			android:defaultValue="30"
-			android:text=" px"
-			seekbar:min="5"
-			android:max="150" />
 		<ListPreference
-			android:key="@string/prefkey_curve_sensitivity"
-			android:title="フリック曲げ角度の感度"
-			android:summary="「低」にすると，鋭く曲げる必要があります"
-			android:entries="@array/curve_sensitivity_entries"
-			android:entryValues="@array/curve_sensitivity_values"
-			android:dialogTitle="フリック曲げ感度"
-			android:defaultValue="high" />
+			android:key="@string/prefkey_flick_sensitivity2"
+			android:title="フリック感度"
+			android:summary="「高」にすると反応しやすくなります"
+			android:entries="@array/sensitivity_entries"
+			android:entryValues="@array/sensitivity_values"
+			android:dialogTitle="フリック感度"
+			android:defaultValue="mid" />
 		<CheckBoxPreference
 			android:key="@string/prefkey_use_popup"
 			android:title="ポップアップの使用"

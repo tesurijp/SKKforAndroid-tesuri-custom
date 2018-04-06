@@ -14,6 +14,9 @@ import android.widget.PopupWindow
 import jp.deadend.noname.skk.engine.SKKEngine
 
 import android.content.Context.CLIPBOARD_SERVICE
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.ShapeDrawable
 import android.widget.TextView
 import kotlinx.android.synthetic.main.popup_flickguide.view.*
 
@@ -41,10 +44,14 @@ class FlickJPKeyboardView : KeyboardView, KeyboardView.OnKeyboardActionListener 
 
     private val mJPKeyboard: SKKKeyboard
     private val mNumKeyboard: SKKKeyboard
+    private val mVoiceKeyboard: SKKKeyboard
 
     private var mKutoutenLabel = "，．？！"
     private val mKutoutenKey: Keyboard.Key
     private val mQwertyKey: Keyboard.Key
+
+    private var mHighlightedKey: Keyboard.Key? = null
+    private val mHighlightedDrawable = ShapeDrawable().apply { paint.color = Color.parseColor("#66FF0000") }
 
     //フリックガイドTextView用
     private val mFlickGuideLabelList = SparseArray<Array<String>>()
@@ -65,7 +72,7 @@ class FlickJPKeyboardView : KeyboardView, KeyboardView.OnKeyboardActionListener 
         a.append(KEYCODE_FLICK_JP_CHAR_TEN_SHIFTED, arrayOf("（", "「", "」", "）", "", "", ""))
         a.append(KEYCODE_FLICK_JP_CHAR_TEN_NUM, arrayOf("，", "．", "−", "：", "", "", ""))
         a.append(KEYCODE_FLICK_JP_KOMOJI, arrayOf("小", "゛", "", "゜", "", "", ""))
-        a.append(KEYCODE_FLICK_JP_MOJI, arrayOf("仮", "：", "数", "＞", "", "", ""))
+        a.append(KEYCODE_FLICK_JP_MOJI, arrayOf("仮", "：", "数", "＞", "声", "", ""))
     }
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
@@ -77,6 +84,7 @@ class FlickJPKeyboardView : KeyboardView, KeyboardView.OnKeyboardActionListener 
         mKutoutenKey = checkNotNull(findKeyByCode(mJPKeyboard, KEYCODE_FLICK_JP_CHAR_TEN)) { "BUG: no kutoten key" }
         mQwertyKey = checkNotNull(findKeyByCode(mJPKeyboard, KEYCODE_FLICK_JP_TOQWERTY)) { "BUG: no qwerty key" }
         mNumKeyboard = SKKKeyboard(context, R.xml.keys_flick_number, 4)
+        mVoiceKeyboard = SKKKeyboard(context, R.xml.keys_flick_voice, 4)
         keyboard = mJPKeyboard
     }
 
@@ -89,7 +97,25 @@ class FlickJPKeyboardView : KeyboardView, KeyboardView.OnKeyboardActionListener 
         mKutoutenKey = checkNotNull(findKeyByCode(mJPKeyboard, KEYCODE_FLICK_JP_CHAR_TEN)) { "BUG: no kutoten key" }
         mQwertyKey = checkNotNull(findKeyByCode(mJPKeyboard, KEYCODE_FLICK_JP_TOQWERTY)) { "BUG: no qwerty key" }
         mNumKeyboard = SKKKeyboard(context, R.xml.keys_flick_number, 4)
+        mVoiceKeyboard = SKKKeyboard(context, R.xml.keys_flick_voice, 4)
         keyboard = mJPKeyboard
+    }
+
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
+        val key = mHighlightedKey
+        key?.let {
+            mHighlightedDrawable.apply {
+                setBounds(key.x, key.y, key.x + key.width, key.y + key.height)
+                draw(canvas)
+            }
+        }
+    }
+
+    fun setHighlightedKey(index: Int) {
+        val keys = keyboard.keys
+        mHighlightedKey = if (index in 0 until keys.size) keys[index] else null
+        invalidateAllKeys()
     }
 
     fun setService(listener: SKKService) {
@@ -205,12 +231,20 @@ class FlickJPKeyboardView : KeyboardView, KeyboardView.OnKeyboardActionListener 
         adjustKeysHorizontally(mNumKeyboard, keyWidth, width.toDouble() / 100, position)
         mNumKeyboard.changeKeyHeight(height)
 
+        adjustKeysHorizontally(mVoiceKeyboard, keyWidth, width.toDouble() / 100, position)
+        mVoiceKeyboard.changeKeyHeight(height)
+
         readPrefs(context)
     }
 
     private fun readPrefs(context: Context) {
         // フリック感度
-        val sensitivity = SKKPrefs.getFlickSensitivity(context)
+        val density = context.resources.displayMetrics.density
+        val sensitivity = when (SKKPrefs.getFlickSensitivity(context)) {
+            "low" -> 36*density.toInt()
+            "high" -> 12*density.toInt()
+            else -> 24*density.toInt()
+        }
         mFlickSensitivitySquared = sensitivity * sensitivity
         // カーブフリック感度
         mCurveSensitivityMultiplier = when (SKKPrefs.getCurveSensitivity(context)) {
@@ -305,7 +339,7 @@ class FlickJPKeyboardView : KeyboardView, KeyboardView.OnKeyboardActionListener 
             FLICK_STATE_NONE_LEFT -> {
                 labels[0].text = mCurrentPopupLabels[0]
                 labels[5].text = mCurrentPopupLabels[5]
-                labels[7].setBackgroundResource(R.drawable.popup_label_highlighted)
+                labels[5].setBackgroundResource(R.drawable.popup_label_highlighted)
             }
             FLICK_STATE_NONE_RIGHT -> {
                 labels[0].text = mCurrentPopupLabels[0]
@@ -494,22 +528,33 @@ class FlickJPKeyboardView : KeyboardView, KeyboardView.OnKeyboardActionListener 
         }
         if (!hasLeftCurve && !hasRightCurve) { return }
 
-        var newstate = -1
-        when (mFlickState) {
-            FLICK_STATE_LEFT -> if (Math.abs(dx) < mCurveSensitivityMultiplier * Math.abs(dy)) {
-                newstate = if (dy < 0) FLICK_STATE_LEFT_RIGHT else FLICK_STATE_LEFT_LEFT
+        val newstate = when (mFlickState) {
+            FLICK_STATE_LEFT -> when (diamondAngle(-dx, -dy)) {
+                in 0.45f..2f -> FLICK_STATE_LEFT_RIGHT
+                in 2f..3.55f -> FLICK_STATE_LEFT_LEFT
+                else -> -1
             }
-            FLICK_STATE_UP -> if (mCurveSensitivityMultiplier * Math.abs(dx) > Math.abs(dy)) {
-                newstate = if (dx < 0) FLICK_STATE_UP_LEFT else FLICK_STATE_UP_RIGHT
+            FLICK_STATE_UP -> when (diamondAngle(-dy, dx)) {
+                in 0.45f..2f -> FLICK_STATE_UP_RIGHT
+                in 2f..3.55f -> FLICK_STATE_UP_LEFT
+                else -> -1
             }
-            FLICK_STATE_RIGHT -> if (Math.abs(dx) < mCurveSensitivityMultiplier * Math.abs(dy)) {
-                newstate = if (dy < 0) FLICK_STATE_RIGHT_LEFT else FLICK_STATE_RIGHT_RIGHT
+            FLICK_STATE_RIGHT -> when (diamondAngle(dx, dy)) {
+                in 0.45f..2f -> FLICK_STATE_RIGHT_RIGHT
+                in 2f..3.55f -> FLICK_STATE_RIGHT_LEFT
+                else -> -1
             }
-            FLICK_STATE_DOWN -> if (mCurveSensitivityMultiplier * Math.abs(dx) > Math.abs(dy)) {
-                newstate = if (dx < 0) FLICK_STATE_DOWN_RIGHT else FLICK_STATE_DOWN_LEFT
+            FLICK_STATE_DOWN -> when (diamondAngle(dy, -dx)) {
+                in 0.45f..2f -> FLICK_STATE_DOWN_RIGHT
+                in 2f..3.55f -> FLICK_STATE_DOWN_LEFT
+                else -> -1
             }
+            else -> -1
         }
         if (newstate == -1) {
+            //曲がらずにそのままフリックしてるらしい場合
+            mFlickStartX += dx
+            mFlickStartY += dy
             return
         }
 
@@ -699,8 +744,8 @@ class FlickJPKeyboardView : KeyboardView, KeyboardView.OnKeyboardActionListener 
             KEYCODE_FLICK_JP_RIGHT -> if (!mService.handleDpad(KeyEvent.KEYCODE_DPAD_RIGHT)) {
                 mService.keyDownUp(KeyEvent.KEYCODE_DPAD_RIGHT)
             }
-            48, 49, 50, 51, 52, 53, 54, 55, 56, 57 ->
-                // 0〜9
+            33, 40, 41, 44, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 63, 91, 93 ->
+                // ! ( ) , . 0〜9 ? [ ]
                 mService.processKey(primaryCode)
             KEYCODE_FLICK_JP_PASTE -> {
                 val cm = mService.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
@@ -724,15 +769,17 @@ class FlickJPKeyboardView : KeyboardView, KeyboardView.OnKeyboardActionListener 
             KEYCODE_FLICK_JP_MOJI -> when (mFlickState) {
                 FLICK_STATE_NONE -> mService.processKey('q'.toInt())
                 FLICK_STATE_LEFT -> mService.processKey(':'.toInt())
-                FLICK_STATE_UP   -> if (keyboard === mJPKeyboard) { keyboard = mNumKeyboard }
+                FLICK_STATE_UP   -> if (keyboard !== mNumKeyboard) { keyboard = mNumKeyboard }
                 FLICK_STATE_RIGHT-> mService.processKey('>'.toInt())
+                FLICK_STATE_DOWN -> if (keyboard !== mVoiceKeyboard) { keyboard = mVoiceKeyboard }
             }
-            KEYCODE_FLICK_JP_TOKANA -> if (keyboard === mNumKeyboard) { keyboard = mJPKeyboard }
+            KEYCODE_FLICK_JP_TOKANA -> if (keyboard !== mJPKeyboard) { keyboard = mJPKeyboard }
             KEYCODE_FLICK_JP_TOQWERTY -> if (isShifted) {
                 mService.processKey('/'.toInt())
             } else {
                 mService.processKey('l'.toInt())
             }
+            KEYCODE_FLICK_JP_SPEECH -> mService.recognizeSpeech()
             KEYCODE_FLICK_JP_CHAR_A, KEYCODE_FLICK_JP_CHAR_KA, KEYCODE_FLICK_JP_CHAR_SA, KEYCODE_FLICK_JP_CHAR_TA, KEYCODE_FLICK_JP_CHAR_NA, KEYCODE_FLICK_JP_CHAR_HA, KEYCODE_FLICK_JP_CHAR_MA, KEYCODE_FLICK_JP_CHAR_YA, KEYCODE_FLICK_JP_CHAR_RA, KEYCODE_FLICK_JP_CHAR_WA, KEYCODE_FLICK_JP_CHAR_TEN, KEYCODE_FLICK_JP_CHAR_TEN_SHIFTED, KEYCODE_FLICK_JP_CHAR_TEN_NUM -> processFlickForLetter(mLastPressedKey, mFlickState, isShifted)
         }
 
@@ -789,6 +836,7 @@ class FlickJPKeyboardView : KeyboardView, KeyboardView.OnKeyboardActionListener 
         private const val KEYCODE_FLICK_JP_CANCEL = -1009
         private const val KEYCODE_FLICK_JP_TOKANA = -1010
         private const val KEYCODE_FLICK_JP_PASTE = -1011
+        private const val KEYCODE_FLICK_JP_SPEECH = -1012
         private const val FLICK_STATE_NONE = 0
         private const val FLICK_STATE_LEFT = 1
         private const val FLICK_STATE_UP = 2
