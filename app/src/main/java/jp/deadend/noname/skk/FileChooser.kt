@@ -19,8 +19,9 @@ import kotlinx.android.synthetic.main.filechooser.*
 import java.io.File
 
 import java.util.Locale
+import org.tesuri.android.skk.R
 
-class FileChooser : ListActivity() {
+open class FileChooser : ListActivity() {
     private lateinit var mCurrentDir: File
     private lateinit var mMode: String
     private lateinit var mSearchToast: Toast

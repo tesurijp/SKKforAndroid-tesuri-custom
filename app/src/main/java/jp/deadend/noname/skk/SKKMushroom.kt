@@ -12,8 +12,9 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import org.tesuri.android.skk.R
 
-class SKKMushroom : ListActivity() {
+open class SKKMushroom : ListActivity() {
     private lateinit var mStr: String
 
     private class AppInfo(internal var icon: Drawable, internal var appName: String, internal var packageName: String, internal var className: String)

@@ -1,8 +1,8 @@
 package jp.deadend.noname.skk.engine
 
 import android.os.Build
-import jp.deadend.noname.skk.R
 import jp.deadend.noname.skk.hankaku2zenkaku
+import org.tesuri.android.skk.R
 
 // Abbrevモード(▽モード)
 object SKKAbbrevState : SKKState {

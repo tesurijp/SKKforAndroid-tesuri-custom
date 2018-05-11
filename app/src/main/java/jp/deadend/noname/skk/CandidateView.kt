@@ -24,6 +24,7 @@ import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import org.tesuri.android.skk.R
 
 /**
  * Construct a CandidateView for showing suggested words for completion.

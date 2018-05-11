@@ -31,8 +31,9 @@ import jdbm.helper.Tuple
 import jp.deadend.noname.dialog.ConfirmationDialogFragment
 import jp.deadend.noname.dialog.SimpleMessageDialogFragment
 import kotlinx.android.synthetic.main.userdictool.*
+import org.tesuri.android.skk.R
 
-class SKKUserDicTool : AppCompatActivity() {
+open class SKKUserDicTool : AppCompatActivity() {
     private lateinit var mRecMan: RecordManager
     private lateinit var mBtree: BTree
     private var isOpened = false

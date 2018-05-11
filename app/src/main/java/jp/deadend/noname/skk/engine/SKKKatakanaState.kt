@@ -1,7 +1,7 @@
 package jp.deadend.noname.skk.engine
 
 import android.os.Build
-import jp.deadend.noname.skk.R
+import org.tesuri.android.skk.R
 import jp.deadend.noname.skk.hirakana2katakana
 
 // カタカナモード

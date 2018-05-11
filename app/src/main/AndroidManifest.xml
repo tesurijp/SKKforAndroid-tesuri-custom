@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="jp.deadend.noname.skk">
+	package="org.tesuri.android.skk">
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-	<uses-permission android:name="android.permission.RECORD_AUDIO" />
 	<application android:label="@string/ime_name"
 			android:allowBackup="true" >
 		<service android:name=".SKKService"

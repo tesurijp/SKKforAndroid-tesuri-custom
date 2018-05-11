@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.widget.PopupWindow
 
 import jp.deadend.noname.skk.engine.SKKEngine
+import org.tesuri.android.skk.R
 
 import android.content.Context.CLIPBOARD_SERVICE
 import android.graphics.Canvas

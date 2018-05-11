@@ -6,7 +6,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.widget.EditText
 
-import jp.deadend.noname.skk.R
+import org.tesuri.android.skk.R
 
 class TextInputDialogFragment : DialogFragment() {
     private var mListener: Listener? = null

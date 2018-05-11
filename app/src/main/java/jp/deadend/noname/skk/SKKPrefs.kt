@@ -9,8 +9,9 @@ import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatDelegate
 import android.view.inputmethod.InputMethodManager
 import kotlinx.android.synthetic.main.skkprefs.*
+import org.tesuri.android.skk.R
 
-class SKKPrefs : PreferenceActivity() {
+open class SKKPrefs : PreferenceActivity() {
     private val delegate: AppCompatDelegate by lazy {
         AppCompatDelegate.create(this, null)
     }

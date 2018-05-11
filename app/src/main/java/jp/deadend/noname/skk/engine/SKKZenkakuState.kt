@@ -1,7 +1,7 @@
 package jp.deadend.noname.skk.engine
 
 import android.os.Build
-import jp.deadend.noname.skk.R
+import org.tesuri.android.skk.R
 import jp.deadend.noname.skk.hankaku2zenkaku
 
 // 全角英数モード

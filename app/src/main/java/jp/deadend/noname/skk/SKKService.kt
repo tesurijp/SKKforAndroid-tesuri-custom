@@ -23,8 +23,9 @@ import android.view.WindowManager
 import android.widget.Toast
 
 import jp.deadend.noname.skk.engine.*
+import org.tesuri.android.skk.R
 
-class SKKService : InputMethodService() {
+open class SKKService : InputMethodService() {
     private var mCandidateViewContainer: CandidateViewContainer? = null
     private var mCandidateView: CandidateView? = null
     private var mFlickJPInputView: FlickJPKeyboardView? = null

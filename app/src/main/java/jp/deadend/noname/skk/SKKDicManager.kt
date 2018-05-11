@@ -29,8 +29,9 @@ import jdbm.helper.Tuple
 import jp.deadend.noname.dialog.ConfirmationDialogFragment
 import jp.deadend.noname.dialog.TextInputDialogFragment
 import kotlinx.android.synthetic.main.dic_manager.*
+import org.tesuri.android.skk.R
 
-class SKKDicManager : AppCompatActivity() {
+open class SKKDicManager : AppCompatActivity() {
     private val mDics = mutableListOf<Tuple>()
 
     private var mAddingDic: String = "" // workaround

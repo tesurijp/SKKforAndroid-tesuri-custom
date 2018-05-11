@@ -6,6 +6,7 @@ import android.inputmethodservice.KeyboardView
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.util.AttributeSet
+import org.tesuri.android.skk.R
 
 class QwertyKeyboardView : KeyboardView, KeyboardView.OnKeyboardActionListener {
     private lateinit var mService: SKKService

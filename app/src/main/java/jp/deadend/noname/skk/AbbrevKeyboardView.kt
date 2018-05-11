@@ -1,10 +1,10 @@
 package jp.deadend.noname.skk
-
 import android.content.Context
 import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
 import android.view.KeyEvent
 import android.util.AttributeSet
+import org.tesuri.android.skk.R
 
 class AbbrevKeyboardView : KeyboardView, KeyboardView.OnKeyboardActionListener {
     private lateinit var mService: SKKService

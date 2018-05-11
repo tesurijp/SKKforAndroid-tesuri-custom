@@ -1,4 +1,5 @@
 package jp.deadend.noname.skk
+import org.tesuri.android.skk.BuildConfig
 
 //private val PAT_QUOTED = "\"(.+?)\"".toRegex()
 private val PAT_ESCAPE_NUM = "\\\\([0-9]+)".toRegex()

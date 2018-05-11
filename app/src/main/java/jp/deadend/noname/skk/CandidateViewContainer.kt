@@ -20,6 +20,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.LinearLayout
+import org.tesuri.android.skk.R
 
 import kotlinx.android.synthetic.main.candidates.view.*
 

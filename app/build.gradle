@@ -7,11 +7,11 @@ android {
     buildToolsVersion '27.0.3'
 
     defaultConfig {
-        applicationId "jp.deadend.noname.skk"
+        applicationId "org.tesuri.android.skk"
         minSdkVersion 9
         targetSdkVersion 25
         versionCode 30
-        versionName "3.3"
+        versionName "1.0"
     }
 
     buildTypes {

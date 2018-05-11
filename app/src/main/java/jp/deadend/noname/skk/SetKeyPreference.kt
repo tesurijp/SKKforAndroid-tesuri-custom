@@ -12,7 +12,7 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.TextView
 
-class SetKeyPreference : DialogPreference, OnKeyListener {
+open class SetKeyPreference : DialogPreference, OnKeyListener {
     private var mValue: Int = 0
     private lateinit var mTextView: TextView
 
