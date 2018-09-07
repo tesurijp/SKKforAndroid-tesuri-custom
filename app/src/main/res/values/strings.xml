@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="ime_name">SKK for Gemini PDA</string>
+	<string name="ime_name">SKK for Android (tesuri custom)</string>
 	<string name="label_mushroom">マッシュルーム</string>
 	<string name="label_extdic_activity">辞書ファイル解凍</string>
 	<string name="label_pref_activity">SKK for Androidの設定</string>

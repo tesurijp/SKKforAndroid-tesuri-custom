@@ -18,7 +18,7 @@
 */
 -->
 
-<jp.deadend.noname.skk.CandidateViewContainer
+<org.tesuri.android.ime.skk.CandidateViewContainer
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -33,7 +33,7 @@
 		android:layout_height="fill_parent"
 		android:clickable="true"
 		/>
-    <jp.deadend.noname.skk.CandidateView
+    <org.tesuri.android.ime.skk.CandidateView
         android:id="@+id/candidates"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -47,4 +47,4 @@
 		android:layout_height="fill_parent"
 		android:clickable="true"
 		/>
-</jp.deadend.noname.skk.CandidateViewContainer>
+</org.tesuri.android.ime.skk.CandidateViewContainer>
