@@ -31,8 +31,8 @@ class TextInputDialogFragment : DialogFragment() {
             mEditText.setSingleLine()
         }
 
-        return AlertDialog.Builder(activity)
-                .setMessage(arguments.getString("message"))
+        return AlertDialog.Builder(activity!!.baseContext)
+                .setMessage(arguments!!.getString("message"))
                 .setView(mEditText)
                 .setCancelable(true)
                 .setPositiveButton(R.string.label_OK) { _, _ ->

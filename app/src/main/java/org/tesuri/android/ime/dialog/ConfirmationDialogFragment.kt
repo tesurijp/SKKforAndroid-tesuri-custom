@@ -19,8 +19,8 @@ class ConfirmationDialogFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(activity)
-                .setMessage(arguments.getInt("message"))
+        return AlertDialog.Builder(activity!!.baseContext)
+                .setMessage(arguments!!.getInt("message"))
                 .setCancelable(true)
                 .setPositiveButton(R.string.label_OK) { _, _ ->
                     mListener?.onPositiveClick()

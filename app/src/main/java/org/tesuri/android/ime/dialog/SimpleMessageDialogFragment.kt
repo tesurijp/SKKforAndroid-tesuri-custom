@@ -8,8 +8,8 @@ import org.tesuri.android.ime.skk.R
 
 class SimpleMessageDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(activity)
-                .setMessage(arguments.getString("message"))
+        return AlertDialog.Builder(activity!!.baseContext)
+                .setMessage(arguments!!.getString("message"))
                 .setPositiveButton(R.string.label_OK) { _, _ -> dismiss() }
                 .create()
     }
